@@ -1,5 +1,10 @@
 <script lang="ts">
-   import type { Node } from "@xyflow/svelte";
+   import BranchSymbol from "$lib/components/BranchSymbol.svelte";
+   import DbSymbol from "$lib/components/DBSymbol.svelte";
+   import IoSymbol from "$lib/components/IOSymbol.svelte";
+   import ProcessSymbol from "$lib/components/ProcessSymbol.svelte";
+   import StartSymbol from "$lib/components/StartSymbol.svelte";
+   import type { Edge, Node } from "@xyflow/svelte";
    import {
       Background,
       ConnectionMode,
@@ -8,9 +13,6 @@
       useSvelteFlow,
    } from "@xyflow/svelte";
    import "@xyflow/svelte/dist/style.css";
-   import BranchSymbol from "./BranchSymbol.svelte";
-   import ProcessSymbol from "./ProcessSymbol.svelte";
-   import StartSymbol from "./StartSymbol.svelte";
 
    const { screenToFlowPosition } = useSvelteFlow();
 
@@ -25,6 +27,7 @@
    let paneContextMenu: HTMLDivElement;
    let nodeContextMenu: HTMLUListElement;
    let nodes: Node[] = $state.raw([]);
+   let edges: Edge[] = $state.raw([]);
 
    const showPaneMenu = (e: MouseEvent) => {
       e.preventDefault();
@@ -39,7 +42,10 @@
       nodeContextMenu.style.display = "block";
    };
 
-   const addNode = (e: MouseEvent, type: "process" | "start" | "branch") => {
+   const addNode = (
+      e: MouseEvent,
+      type: "process" | "start" | "branch" | "io" | "db",
+   ) => {
       const position = screenToFlowPosition({
          x: e.clientX,
          y: e.clientY,
@@ -66,28 +72,37 @@
    }}
    on:keyup={(e) => {
       if (e.key == "Delete") {
+         console.log(selectedNodes);
+         console.log(selectedEdges);
          nodes = nodes.filter((node) => {
             return !selectedNodes.includes(node.id);
          });
+         selectedNodes = [];
+         edges = edges.filter((edge) => {
+            return !selectedEdges.includes(edge.id);
+         });
+         selectedEdges = [];
       }
    }}
 />
 
 <div class="w-full h-dvh overflow-hidden">
    <SvelteFlow
+      snapGrid={[5, 5]}
       connectionMode={ConnectionMode.Loose}
-      panOnDrag={false}
-      panOnScroll
       onpanecontextmenu={(e) => showPaneMenu(e.event)}
       onnodecontextmenu={(e) => showNodeMenu(e.event)}
+      onnodedragstop={(e) => console.log(e.targetNode?.position)}
       bind:nodes
+      bind:edges
       defaultEdgeOptions={{ type: "smoothstep" }}
       nodeTypes={{
          process: ProcessSymbol,
          start: StartSymbol,
          branch: BranchSymbol,
+         io: IoSymbol,
+         db: DbSymbol,
       }}
-      panActivationKey="Shift"
    >
       <Background bgColor="#303030" patternColor="#525252" />
    </SvelteFlow>
@@ -101,7 +116,7 @@
          onclick={(e) => {
             addNode(e, "process");
          }}
-         class=" hover:bg-gray-600 rounded-lg p-1 flex justify-center items-center"
+         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
       >
          <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -120,7 +135,7 @@
          onclick={(e) => {
             addNode(e, "branch");
          }}
-         class=" hover:bg-gray-600 rounded-lg p-1 flex justify-center items-center"
+         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
       >
          <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +157,7 @@
          onclick={(e) => {
             addNode(e, "start");
          }}
-         class=" hover:bg-gray-600 rounded-lg p-1 flex justify-center items-center"
+         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
       >
          <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -157,8 +172,25 @@
       </button>
       <!-- svelte-ignore a11y_consider_explicit_label -->
       <button
-         onclick={() => {}}
-         class=" hover:bg-gray-600 rounded-lg p-1 flex justify-center items-center"
+         onclick={(e) => {
+            addNode(e, "io");
+         }}
+         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
+      >
+         <svg viewBox="0 0 100 60" stroke-width="8" class="size-5">
+            <path
+               d="M10.8352 0L100 0L89.1649 60L0 60L10.8352 0Z"
+               class="stroke-[6] stroke-white"
+               fill="none"
+            />
+         </svg>
+      </button>
+      <!-- svelte-ignore a11y_consider_explicit_label -->
+      <button
+         onclick={(e) => {
+            addNode(e, "db");
+         }}
+         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
       >
          <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +211,7 @@
          onclick={(e) => {
             addNode(e, "process");
          }}
-         class=" hover:bg-gray-600 rounded-lg p-1 flex justify-center items-center"
+         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
       >
          <svg
             xmlns="http://www.w3.org/2000/svg"
