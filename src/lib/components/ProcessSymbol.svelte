@@ -1,33 +1,40 @@
 <script lang="ts">
-    import { Handle, Position, type NodeProps } from "@xyflow/svelte";
-    let text = $state("");
+    import type { SymbolData } from "$lib/SymbolData";
+    import {
+        Handle,
+        Position,
+        useSvelteFlow,
+        type Node,
+        type NodeProps,
+    } from "@xyflow/svelte";
     let rows = $derived.by(() => {
-        const matches = text.match(/\n/g); // Finds all \n
-        console.log(matches?.length);
-
+        const matches = (data.label ?? "").match(/\n/g); // Finds all \n
         return matches ? matches.length + 1 : 1;
     });
-    const { data, id, selected }: NodeProps = $props();
+    const { updateNodeData } = useSvelteFlow();
+    const { data, id, selected }: NodeProps<Node<SymbolData>> = $props();
 </script>
 
 <div class="group">
     <svg
-        viewBox="0 0 120 70"
+        viewBox="-1 -1 122 72"
         width="120"
         height="70"
-        xmlns="http://www.w3.org/2000/svg"
+        style="color: {data.background};"
         class="text-base-200 text-sm flex justify-center items-center stroke-2 {selected
             ? 'stroke-emerald-700'
             : 'stroke-transparent hover:stroke-zinc-600'} transition-all group"
     >
-        <rect width="100%" height="100%" fill="currentcolor" />
+        <rect width="120" height="70" fill="currentcolor" />
     </svg>
     <textarea
-        bind:value={text}
+        style="font-size: {data.labelSize}px;"
+        oninput={(e) => {
+            updateNodeData(id, { label: e.currentTarget.value });
+        }}
         class="text-center outline-none resize-none text-gray-300 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-auto"
-        {rows}
+        {rows}>{data.label}</textarea
     >
-    </textarea>
     <Handle
         id="process-a"
         type="source"

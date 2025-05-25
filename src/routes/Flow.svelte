@@ -2,8 +2,10 @@
    import BranchSymbol from "$lib/components/BranchSymbol.svelte";
    import DbSymbol from "$lib/components/DBSymbol.svelte";
    import IoSymbol from "$lib/components/IOSymbol.svelte";
+   import MyEdge from "$lib/components/MyEdge.svelte";
    import ProcessSymbol from "$lib/components/ProcessSymbol.svelte";
    import StartSymbol from "$lib/components/StartSymbol.svelte";
+   import type { SymbolData } from "$lib/SymbolData";
    import type { Edge, Node } from "@xyflow/svelte";
    import {
       Background,
@@ -14,7 +16,7 @@
    } from "@xyflow/svelte";
    import "@xyflow/svelte/dist/style.css";
 
-   const { screenToFlowPosition } = useSvelteFlow();
+   const { screenToFlowPosition, updateNodeData, updateEdge } = useSvelteFlow();
 
    let selectedNodes = $state.raw<string[]>([]);
    let selectedEdges = $state.raw<string[]>([]);
@@ -26,7 +28,7 @@
 
    let paneContextMenu: HTMLDivElement;
    let nodeContextMenu: HTMLUListElement;
-   let nodes: Node[] = $state.raw([]);
+   let nodes: Node<SymbolData>[] = $state.raw([]);
    let edges: Edge[] = $state.raw([]);
 
    const showPaneMenu = (e: MouseEvent) => {
@@ -58,7 +60,7 @@
                   ? "0"
                   : `${Math.max(...nodes.map((node) => parseInt(node.id) || 0)) + 1}`,
             position,
-            data: { title: type },
+            data: { background: "#191E24" },
             type,
          },
       ];
@@ -72,8 +74,6 @@
    }}
    on:keyup={(e) => {
       if (e.key == "Delete") {
-         console.log(selectedNodes);
-         console.log(selectedEdges);
          nodes = nodes.filter((node) => {
             return !selectedNodes.includes(node.id);
          });
@@ -89,13 +89,16 @@
 <div class="w-full h-dvh overflow-hidden">
    <SvelteFlow
       snapGrid={[5, 5]}
+      disableKeyboardA11y
       connectionMode={ConnectionMode.Loose}
       onpanecontextmenu={(e) => showPaneMenu(e.event)}
       onnodecontextmenu={(e) => showNodeMenu(e.event)}
-      onnodedragstop={(e) => console.log(e.targetNode?.position)}
       bind:nodes
       bind:edges
-      defaultEdgeOptions={{ type: "smoothstep" }}
+      defaultEdgeOptions={{ type: "los" }}
+      edgeTypes={{
+         los: MyEdge,
+      }}
       nodeTypes={{
          process: ProcessSymbol,
          start: StartSymbol,
@@ -252,18 +255,93 @@
    >
       {#if selectedNodes.length == 1}
          {@const node = nodes.find((n) => n.id == selectedNodes[0])!}
-         <label for="title" class="mb-2 block">
-            <p class="text-xs">Title <span class="text-amber-500">*</span></p>
+         <label for="text" class="mb-2 block">
+            <p class="text-xs">text <span class="text-amber-500">*</span></p>
+            <textarea
+               id="text"
+               class="textarea bg-zinc-700"
+               oninput={(e) => {
+                  updateNodeData(node.id, { label: e.currentTarget.value });
+               }}>{node.data.label}</textarea
+            >
+         </label>
+         <label for="font-size" class="mb-2 block">
+            <p class="text-xs">
+               Font size <span class="text-amber-500">*</span>
+            </p>
             <input
-               id="title"
-               type="text"
+               id="font-size"
+               type="number"
                class="input input-sm bg-zinc-700"
-               value={node.data.title}
+               value={node.data.labelSize}
+               oninput={(e) => {
+                  let labelSize = parseInt(e.currentTarget.value);
+                  if (labelSize < 16 || Number.isNaN(labelSize)) {
+                     labelSize = 16;
+                  }
+                  updateNodeData(node.id, { labelSize });
+               }}
             />
          </label>
-         <label for="Action">
-            <p class="text-xs">Action <span class="text-amber-500">*</span></p>
-            <input id="Action" type="text" class="input input-sm bg-zinc-700" />
+         <label for="bg-color" class="mb-2 block">
+            <p class="text-xs">
+               Background color <span class="text-amber-500">*</span>
+            </p>
+            <input
+               id="bg-color"
+               type="color"
+               class="input input-sm bg-zinc-700 cursor-pointer"
+               value={node.data.background}
+               oninput={(e) => {
+                  updateNodeData(node.id, {
+                     background: e.currentTarget.value,
+                  });
+               }}
+            />
+         </label>
+      {/if}
+      {#if selectedEdges.length == 1}
+         {@const edge = edges.find((n) => n.id == selectedEdges[0])!}
+         <label for="text" class="mb-2 block">
+            <p class="text-xs">text <span class="text-amber-500">*</span></p>
+            <input
+               id="text"
+               type="text"
+               class="input input-sm bg-zinc-700"
+               value={edge.data?.label}
+               oninput={(e) => {
+                  updateNodeData(edge.id, { label: e.currentTarget.value });
+               }}
+            />
+         </label>
+         <label for="font-size" class="mb-2 block">
+            <p class="text-xs">
+               Font size <span class="text-amber-500">*</span>
+            </p>
+            <input
+               id="font-size"
+               type="number"
+               class="input input-sm bg-zinc-700"
+               value={edge.data?.labelSize}
+               oninput={(e) => {
+                  let labelSize = parseInt(e.currentTarget.value);
+                  if (labelSize < 16 || Number.isNaN(labelSize)) {
+                     labelSize = 16;
+                  }
+               }}
+            />
+         </label>
+         <label for="bg-color" class="mb-2 block">
+            <p class="text-xs">
+               Background color <span class="text-amber-500">*</span>
+            </p>
+            <input
+               id="bg-color"
+               type="color"
+               class="input input-sm bg-zinc-700 cursor-pointer"
+               value={edge.data?.background}
+               oninput={(e) => {}}
+            />
          </label>
       {/if}
    </aside>

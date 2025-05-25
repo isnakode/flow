@@ -3,8 +3,6 @@
     let text = $state("");
     let rows = $derived.by(() => {
         const matches = text.match(/\n/g); // Finds all \n
-        console.log(matches?.length);
-
         return matches ? matches.length + 1 : 1;
     });
 
@@ -13,7 +11,7 @@
 
 <div class="group">
     <svg
-        viewBox="0 0 100 100"
+        viewBox="-1 -1 102 102"
         width="100"
         height="100"
         xmlns="http://www.w3.org/2000/svg"

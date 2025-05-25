@@ -2,9 +2,7 @@
    import { Handle, Position, type NodeProps } from "@xyflow/svelte";
    let text = $state("");
    let rows = $derived.by(() => {
-      const matches = text.match(/\n/g); // Finds all \n
-      console.log(matches?.length);
-
+      const matches = text.match(/\n/g); 
       return matches ? matches.length + 1 : 1;
    });
    const { data, id, selected }: NodeProps = $props();
@@ -14,16 +12,18 @@
    <svg
       width="100"
       height="60"
-      viewBox="0 0 100 60"
-      fill="none"
+      viewBox="-1 -1 102 62"
+      overflow="visible"
+      xmlns="http://www.w3.org/2000/svg"
       class="text-base-200 text-sm flex justify-center items-center stroke-2 {selected
          ? 'stroke-emerald-700'
          : 'stroke-transparent hover:stroke-zinc-600'} transition-all group"
    >
       <path
          d="M10.8352 0L100 0L89.1649 60L0 60L10.8352 0Z"
-         fill="currentcolor"
-         fill-rule="evenodd"
+         fill="currentColor"
+         stroke-linejoin='round'
+         stroke-width="2"
       />
    </svg>
    <textarea

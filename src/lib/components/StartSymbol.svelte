@@ -2,9 +2,7 @@
     import { Handle, Position, type NodeProps } from "@xyflow/svelte";
     let text = $state("");
     let rows = $derived.by(() => {
-        const matches = text.match(/\n/g); // Finds all \n
-        console.log(matches?.length);
-
+        const matches = text.match(/\n/g);
         return matches ? matches.length + 1 : 1;
     });
     const { data, id, selected }: NodeProps = $props();
@@ -14,7 +12,7 @@
     <svg
         width="120"
         height="50"
-        viewBox="0 0 120 50"
+        viewBox="-1 -1 122 52"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         class="text-base-200 text-sm flex justify-center items-center stroke-2 {selected

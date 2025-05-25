@@ -2,9 +2,7 @@
     import { Handle, Position, type NodeProps } from "@xyflow/svelte";
     let text = $state("");
     let rows = $derived.by(() => {
-        const matches = text.match(/\n/g); // Finds all \n
-        console.log(matches?.length);
-
+        const matches = text.match(/\n/g); 
         return matches ? matches.length + 1 : 1;
     });
     const { data, id, selected }: NodeProps = $props();
