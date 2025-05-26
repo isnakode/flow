@@ -1,12 +1,15 @@
 ![svelte x xyflow](.github/assets/svelte_xyflow.png)
 # Flows 🗺️
 
+> **🚧 Project Under Heavy Development**.
+> Expect bug and incomplete features.
+
 A simple **flowchart web app** built with [**Svelte**](https://svelte.dev/) and [**xyflow**](https://xyflow.dev/). Drag, connect, and visualize your logic in a clean, reactive UI.
 
 ## ✨ Features
 
 * Create interactive flowcharts with drag-and-drop
-* Export flowchart as image
+* Export flowchart as image (coming soon)
 
 ## 🚀 Quick Start
 
@@ -19,12 +22,7 @@ npm run dev
 
 ## 🤝 Contributing
 
-1. Fork the repo & create your branch: `git checkout -b feature/xyz`
-2. Commit your changes: `git commit -m "feat: add xyz"`
-3. Push to the branch: `git push origin feature/xyz`
-4. Open a pull request
-
-All contributions – big or small – make the project better. ❤️
+see how to [contribute](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project)
 
 ## 📄 License
 
