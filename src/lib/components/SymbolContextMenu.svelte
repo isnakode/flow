@@ -1,9 +1,10 @@
 <script lang="ts">
    import BranchFlowIcon from "../../Icon/BranchFlowIcon.svelte";
    import DbfLowIcon from "../../Icon/DBFLowIcon.svelte";
-    import IoFlowIcon from "../../Icon/IoFlowIcon.svelte";
-    import OffpageFlowIcon from "../../Icon/OffpageFlowIcon.svelte";
-    import OnpageFlowIcon from "../../Icon/OnpageFlowIcon.svelte";
+   import DocFlowIcon from "../../Icon/DocFlowIcon.svelte";
+   import IoFlowIcon from "../../Icon/IoFlowIcon.svelte";
+   import OffpageFlowIcon from "../../Icon/OffpageFlowIcon.svelte";
+   import OnpageFlowIcon from "../../Icon/OnpageFlowIcon.svelte";
    import ProcessFlowIcon from "../../Icon/ProcessFlowIcon.svelte";
    import StartFlowIcon from "../../Icon/StartFlowIcon.svelte";
 
@@ -12,7 +13,7 @@
          title: "start",
          icon: StartFlowIcon,
       },
-      
+
       {
          title: "io",
          icon: IoFlowIcon,
@@ -36,6 +37,10 @@
       {
          title: "onpage",
          icon: OnpageFlowIcon,
+      },
+      {
+         title: "document",
+         icon: DocFlowIcon,
       },
    ];
    let {

@@ -13,11 +13,13 @@
     });
     const { updateNodeData } = useSvelteFlow();
     const { data, id, selected }: NodeProps<Node<SymbolData>> = $props();
-    const svgClass = `text-base-200 text-sm flex justify-center items-center stroke-2 transition-all group ${
-        selected
-            ? "stroke-emerald-700"
-            : "stroke-zinc-700 hover:stroke-zinc-600"
-    }`;
+    const svgClass = $derived(
+        `text-base-200 text-sm flex justify-center items-center stroke-2 transition-all group ${
+            selected
+                ? "stroke-emerald-700"
+                : "stroke-zinc-700 hover:stroke-zinc-600"
+        }`,
+    );
 </script>
 
 <div class="group">
@@ -103,15 +105,19 @@
             </path>
         </svg>
     {:else if data.type == "onpage"}
-        <svg
-            width="61"
-            height="61"
-            viewBox="-1 -1 63 63"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg width="61" height="61" viewBox="-1 -1 63 63" fill="none">
             <path
                 d="M0 30.5C0 13.6553 13.6553 0 30.5 0C47.3447 0 61 13.6553 61 30.5C61 47.3447 47.3447 61 30.5 61C13.6553 61 0 47.3447 0 30.5Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+                style="color: {data.background};"
+                class={svgClass}
+            />
+        </svg>
+    {:else if data.type == "document"}
+        <svg width="112.5" height="60" viewBox="-1 -1 113 62" fill="none">
+            <path
+                d="M0 0L112.5 0C112.5 0 112.5 55.08 112.5 55.08C56.25 32.5688 56.25 78.2288 0 51.0881C0 51.0881 0 0 0 0Z"
                 fill="currentColor"
                 fill-rule="evenodd"
                 style="color: {data.background};"

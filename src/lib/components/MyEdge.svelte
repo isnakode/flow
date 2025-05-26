@@ -31,8 +31,8 @@
          targetPosition,
       }),
    );
-   useOnSelectionChange(({ edges }) => {
-      if (edges.length == 1 && edges[0].id == id) {
+   useOnSelectionChange(({ edges, nodes }) => {
+      if (edges.length == 1 && edges[0].id == id && nodes.length == 0) {
          if (browser) {
             (document.activeElement as HTMLElement).blur();
          }
@@ -47,10 +47,7 @@
    });
 </script>
 
-<BaseEdge
-   path={edgePath}
-   class="stroke-2! m-0! p-0! size-fit!"
-/>
+<BaseEdge path={edgePath} class="stroke-2! m-0! p-0! size-fit!" />
 
 <EdgeLabel transparent class=" text-lg" {x} {y}
    >{#if selectedMyself}
