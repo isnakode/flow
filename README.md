@@ -1,38 +1,31 @@
-# sv
+![svelte x xyflow](.github/assets/svelte_xyflow.png)
+# Flows 🗺️
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A simple **flowchart web app** built with [**Svelte**](https://svelte.dev/) and [**xyflow**](https://xyflow.dev/). Drag, connect, and visualize your logic in a clean, reactive UI.
 
-## Creating a project
+## ✨ Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+* Create interactive flowcharts with drag-and-drop
+* Export flowchart as image
 
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## 🚀 Quick Start
 
 ```bash
+git clone https://github.com/isnakode/flow.git
+cd flow
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+## 🤝 Contributing
 
-To create a production version of your app:
+1. Fork the repo & create your branch: `git checkout -b feature/xyz`
+2. Commit your changes: `git commit -m "feat: add xyz"`
+3. Push to the branch: `git push origin feature/xyz`
+4. Open a pull request
 
-```bash
-npm run build
-```
+All contributions – big or small – make the project better. ❤️
 
-You can preview the production build with `npm run preview`.
+## 📄 License
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Distributed under the **MIT License**. See `LICENSE` for more information.
