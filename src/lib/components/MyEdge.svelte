@@ -49,7 +49,7 @@
 
 <BaseEdge
    path={edgePath}
-   class="[stroke-dasharray:10]! stroke-2! m-0! p-0! size-fit!"
+   class="stroke-2! m-0! p-0! size-fit!"
 />
 
 <EdgeLabel transparent class=" text-lg" {x} {y}
@@ -58,7 +58,7 @@
       <textarea
          autocomplete="off"
          autofocus={true}
-         onfocus={e=>e.currentTarget.select()}
+         onfocus={(e) => e.currentTarget.select()}
          {rows}
          oninput={(e) => {
             updateEdge(id, { label: e.currentTarget.value });
@@ -66,7 +66,10 @@
          class="outline-none resize-none h-auto text-center">{label}</textarea
       >
    {:else}
-      <button onclick={() => (selectedMyself = true)} class="bg-[#303030] p-1">
+      <button
+         onclick={() => (selectedMyself = true)}
+         class="bg-[#303030] {label ? 'p-1' : 'p-0'}"
+      >
          <pre class="font-[inherit]">{label}</pre>
       </button>
    {/if}

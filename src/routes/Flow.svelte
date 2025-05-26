@@ -1,10 +1,7 @@
 <script lang="ts">
-   import BranchSymbol from "$lib/components/BranchSymbol.svelte";
-   import DbSymbol from "$lib/components/DBSymbol.svelte";
-   import IoSymbol from "$lib/components/IOSymbol.svelte";
+   import FlowchartNode from "$lib/components/FlowchartNode.svelte";
    import MyEdge from "$lib/components/MyEdge.svelte";
-   import ProcessSymbol from "$lib/components/ProcessSymbol.svelte";
-   import StartSymbol from "$lib/components/StartSymbol.svelte";
+   import SymbolContextMenu from "$lib/components/SymbolContextMenu.svelte";
    import type { SymbolData } from "$lib/SymbolData";
    import type { Edge, Node } from "@xyflow/svelte";
    import {
@@ -26,6 +23,7 @@
       selectedEdges = edges.map((edge) => edge.id);
    });
 
+   // svelte-ignore non_reactive_update
    let paneContextMenu: HTMLDivElement;
    let nodeContextMenu: HTMLUListElement;
    let nodes: Node<SymbolData>[] = $state.raw([]);
@@ -44,10 +42,7 @@
       nodeContextMenu.style.display = "block";
    };
 
-   const addNode = (
-      e: MouseEvent,
-      type: "process" | "start" | "branch" | "io" | "db",
-   ) => {
+   const addFlowchartNode = (e: MouseEvent, type: string) => {
       const position = screenToFlowPosition({
          x: e.clientX,
          y: e.clientY,
@@ -60,8 +55,8 @@
                   ? "0"
                   : `${Math.max(...nodes.map((node) => parseInt(node.id) || 0)) + 1}`,
             position,
-            data: { background: "#191E24" },
-            type,
+            data: { background: "#191E24", labelSize: 14, type },
+            type: "flowchart",
          },
       ];
    };
@@ -100,138 +95,12 @@
          los: MyEdge,
       }}
       nodeTypes={{
-         process: ProcessSymbol,
-         start: StartSymbol,
-         branch: BranchSymbol,
-         io: IoSymbol,
-         db: DbSymbol,
+         flowchart: FlowchartNode,
       }}
    >
       <Background bgColor="#303030" patternColor="#525252" />
    </SvelteFlow>
-
-   <div
-      bind:this={paneContextMenu}
-      class="menu bg-base-200 absolute hidden text-sm rounded-box grid-cols-5"
-   >
-      <!-- svelte-ignore a11y_consider_explicit_label -->
-      <button
-         onclick={(e) => {
-            addNode(e, "process");
-         }}
-         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
-      >
-         <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="size-5"
-            ><rect width="20" height="12" x="2" y="6" rx="2" /></svg
-         >
-      </button>
-      <!-- svelte-ignore a11y_consider_explicit_label -->
-      <button
-         onclick={(e) => {
-            addNode(e, "branch");
-         }}
-         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
-      >
-         <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="size-5"
-            ><path
-               d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0Z"
-            /></svg
-         >
-      </button>
-
-      <!-- svelte-ignore a11y_consider_explicit_label -->
-      <button
-         onclick={(e) => {
-            addNode(e, "start");
-         }}
-         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
-      >
-         <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="size-5"><circle cx="12" cy="12" r="10" /></svg
-         >
-      </button>
-      <!-- svelte-ignore a11y_consider_explicit_label -->
-      <button
-         onclick={(e) => {
-            addNode(e, "io");
-         }}
-         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
-      >
-         <svg viewBox="0 0 100 60" stroke-width="8" class="size-5">
-            <path
-               d="M10.8352 0L100 0L89.1649 60L0 60L10.8352 0Z"
-               class="stroke-[6] stroke-white"
-               fill="none"
-            />
-         </svg>
-      </button>
-      <!-- svelte-ignore a11y_consider_explicit_label -->
-      <button
-         onclick={(e) => {
-            addNode(e, "db");
-         }}
-         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
-      >
-         <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="size-5"
-            ><ellipse cx="12" cy="5" rx="9" ry="3" /><path
-               d="M3 5v14a9 3 0 0 0 18 0V5"
-            /></svg
-         >
-      </button>
-      <!-- svelte-ignore a11y_consider_explicit_label -->
-      <button
-         onclick={(e) => {
-            addNode(e, "process");
-         }}
-         class=" hover:bg-gray-700 cursor-pointer rounded-lg p-1 flex justify-center items-center"
-      >
-         <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="size-5 rotate-90"
-            ><path
-               d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"
-            /></svg
-         >
-      </button>
-   </div>
-
+   <SymbolContextMenu bind:paneContextMenu onclick={addFlowchartNode} />
    <ul
       bind:this={nodeContextMenu}
       class="menu bg-base-200 absolute hidden text-sm rounded-box w-56"
@@ -259,7 +128,7 @@
             <p class="text-xs">text <span class="text-amber-500">*</span></p>
             <textarea
                id="text"
-               class="textarea bg-zinc-700"
+               class="textarea outline-none! border-none! bg-zinc-700"
                oninput={(e) => {
                   updateNodeData(node.id, { label: e.currentTarget.value });
                }}>{node.data.label}</textarea
@@ -272,14 +141,17 @@
             <input
                id="font-size"
                type="number"
-               class="input input-sm bg-zinc-700"
+               class="input outline-none! border-none! bg-zinc-700"
                value={node.data.labelSize}
                oninput={(e) => {
                   let labelSize = parseInt(e.currentTarget.value);
-                  if (labelSize < 16 || Number.isNaN(labelSize)) {
-                     labelSize = 16;
+                  if (
+                     Number.isInteger(labelSize) &&
+                     labelSize >= 16 &&
+                     labelSize <= 30
+                  ) {
+                     updateNodeData(node.id, { labelSize });
                   }
-                  updateNodeData(node.id, { labelSize });
                }}
             />
          </label>
@@ -290,7 +162,7 @@
             <input
                id="bg-color"
                type="color"
-               class="input input-sm bg-zinc-700 cursor-pointer"
+               class="input outline-none! border-none! bg-zinc-700 cursor-pointer"
                value={node.data.background}
                oninput={(e) => {
                   updateNodeData(node.id, {

@@ -5,4 +5,5 @@ export type SymbolData = {
    label?: string
    labelSize?: number
    labelColor?: string
+   type?: string
 }
