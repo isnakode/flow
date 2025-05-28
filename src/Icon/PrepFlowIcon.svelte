@@ -1,14 +1,14 @@
 <svg
-   viewBox="-1 -1 26 13.8"
+   viewBox="-1 -1 26 14"
    fill="none"
    xmlns="http://www.w3.org/2000/svg"
    class="size-8"
 >
    <path
-      d="M0 0L24 0C24 0 24 11.7504 24 11.7504C12 6.948 12 16.6888 0 10.8988C0 10.8988 0 0 0 0Z"
+      d="M3.2 12L0 6L3.2 0L20.8 0L24 6L20.8 12L3.2 12Z"
       fill="none"
-      stroke-width="2"
       stroke="currentColor"
+      stroke-width="2"
       fill-rule="evenodd"
    />
 </svg>

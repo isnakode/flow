@@ -5,7 +5,7 @@
    class="size-8"
 >
    <path
-      d="M0 12L3.20001 0L24 0L20.8 12L0 12Z"
+      d="M6.08 12C2.88 12 0 9.42841 0 6C0 2.57159 2.88 0 6.08 0C6.08 0 24 0 24 0C20.2667 4 20.2667 8 24 12C24 12 6.08 12 6.08 12Z"
       fill="none"
       stroke="currentColor"
       stroke-width="2"

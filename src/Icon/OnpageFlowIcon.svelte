@@ -1,9 +1,14 @@
-<svg viewBox="-1 -1 63 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg
+   viewBox="-1 -1 26 26"
+   fill="none"
+   xmlns="http://www.w3.org/2000/svg"
+   class="size-8"
+>
    <path
-      d="M0 30.5C0 13.6553 13.6553 0 30.5 0C47.3447 0 61 13.6553 61 30.5C61 47.3447 47.3447 61 30.5 61C13.6553 61 0 47.3447 0 30.5Z"
+      d="M0 12C0 5.37259 5.37258 0 12 0C18.6274 0 24 5.37259 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12Z"
       fill="none"
       stroke="currentColor"
+      stroke-width="2"
       fill-rule="evenodd"
-      class="size-5 stroke-3"
    />
 </svg>

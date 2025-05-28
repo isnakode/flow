@@ -7,6 +7,7 @@
    import {
       Background,
       ConnectionMode,
+      MarkerType,
       SvelteFlow,
       useOnSelectionChange,
       useSvelteFlow,
@@ -90,7 +91,10 @@
       onnodecontextmenu={(e) => showNodeMenu(e.event)}
       bind:nodes
       bind:edges
-      defaultEdgeOptions={{ type: "los" }}
+      defaultEdgeOptions={{
+         type: "los",
+         markerEnd: { width: 15, height: 15, type: MarkerType.Arrow },
+      }}
       edgeTypes={{
          los: MyEdge,
       }}
@@ -203,18 +207,9 @@
                }}
             />
          </label>
-         <label for="bg-color" class="mb-2 block">
-            <p class="text-xs">
-               Background color <span class="text-amber-500">*</span>
-            </p>
-            <input
-               id="bg-color"
-               type="color"
-               class="input input-sm bg-zinc-700 cursor-pointer"
-               value={edge.data?.background}
-               oninput={(e) => {}}
-            />
-         </label>
+         <div class="flex">
+            <div class="size-5 hover:bg-gray-700">halo</div>
+         </div>
       {/if}
    </aside>
 </div>

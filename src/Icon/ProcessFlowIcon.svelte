@@ -6,5 +6,5 @@
    stroke-width="2"
    stroke-linecap="round"
    stroke-linejoin="round"
-   class="size-5"><rect width="20" height="12" x="2" y="6" rx="2" /></svg
+   class="size-8"><rect width="20" height="12" x="2" y="6" rx="2" /></svg
 >

@@ -19,6 +19,7 @@
       targetY,
       label,
       sourcePosition,
+      markerEnd,
       targetPosition,
    }: EdgeProps = $props();
    const [edgePath, x, y] = $derived(
@@ -47,7 +48,11 @@
    });
 </script>
 
-<BaseEdge path={edgePath} class="stroke-2! m-0! p-0! size-fit!" />
+<BaseEdge
+   path={edgePath}
+   class="stroke-2! m-0! p-0! size-fit!"
+   {markerEnd}
+/>
 
 <EdgeLabel transparent class=" text-lg" {x} {y}
    >{#if selectedMyself}
